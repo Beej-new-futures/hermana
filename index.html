@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hermana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ede9e3;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .nav-left {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 1000;
+      padding: 28px 40px;
+      mix-blend-mode: exclusion;
+    }
+
+    .nav-right {
+      position: fixed;
+      top: 0; right: 0;
+      z-index: 1000;
+      padding: 28px 40px;
+      mix-blend-mode: exclusion;
+    }
+
+    .nav-left a, .nav-right a {
+      color: #fff;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: color 0.25s ease;
+    }
+
+    .nav-left a:hover, .nav-right a:hover { color: #ff5500; }
+
+    @media (max-width: 768px) {
+      .nav-left, .nav-right { padding: 20px 20px; }
+      .nav-left a, .nav-right a { font-size: 11px; }
+      .arrow-top { display: none !important; }
+    }
+
+    .hero {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      pointer-events: none;
+      mix-blend-mode: exclusion;
+    }
+
+    .hero img {
+      width: clamp(300px, 60vw, 900px);
+      height: auto;
+      display: block;
+    }
+
+    /* ── MOBILE GRID ── */
+    .mobile-grid {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-grid {
+        display: block;
+        padding: 100px 16px 80px;
+      }
+
+      .mobile-grid .m-img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .frame { display: none !important; }
+      #scroll-body { display: none !important; }
+    }
+
+    .arrow-top {
+      position: fixed;
+      bottom: clamp(40px, 6vh, 80px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 998;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .arrow-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.2; }
+      100% { opacity: 1; }
+    }
+
+    .arrow-top svg {
+      width: clamp(32px, 3vw, 48px);
+      height: auto;
+      display: block;
+    }
+
+    .frame {
+      position: fixed;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .frame .caption {
+      position: absolute;
+      bottom: 14px; left: 18px;
+      color: rgba(255,255,255,0.55);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav-left"><a href="contact.html">Contact</a></div>
+  <div class="nav-right"><a href="manifesto.html">Manifesto</a></div>
+
+  <div class="hero">
+    <img src="logo.png" alt="Hermana" />
+  </div>
+
+  <div id="scroll-body"></div>
+
+  <!-- Mobile grid -->
+  <div class="mobile-grid">
+    <img class="m-img" src="image (1).jpg"   alt="1" />
+    <img class="m-img" src="image (2).jpg"  alt="2" />
+    <img class="m-img" src="image (3).jpg"  alt="3" />
+    <img class="m-img" src="image (4).jpg"  alt="4" />
+    <img class="m-img" src="image (5).jpg"  alt="5" />
+    <img class="m-img" src="image (6).jpg"  alt="6" />
+    <img class="m-img" src="image (7).jpg"  alt="7" />
+    <img class="m-img" src="image (8).jpg"  alt="8" />
+    <img class="m-img" src="image (9).jpg"  alt="9" />
+    <img class="m-img" src="image (10).jpg" alt="10" />
+    <img class="m-img" src="image (11).jpg" alt="11" />
+    <img class="m-img" src="image (12).jpg" alt="12" />
+    <img class="m-img" src="image (14).jpg"  alt="14" />
+    <img class="m-img" src="image (15).jpg"  alt="15" />
+    <img class="m-img" src="image (16).jpg"  alt="16" />
+    <img class="m-img" src="image (17).jpg"  alt="17" />
+    <img class="m-img" src="image (19).jpg"  alt="19" />
+  </div>
+
+  <div class="arrow-top" id="arrow-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="40" x2="24" y2="8" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+      <polyline points="10,22 24,8 38,22" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <script>
+  (() => {
+    const MOBILE_BP = 768;
+
+    // 17 images — matches exactly what's in the folder
+    // Missing: 13, 18
+    const defs = [
+      { id:0,  src:'image (1).jpg',   speed:0.11, restY:0.48, wFrac:0.80, aspect:16/9,  align:'center', offset:0    },
+      { id:1,  src:'image (2).jpeg',  speed:0.17, restY:1.40, wFrac:0.66, aspect:16/10, align:'right',  offset:-160 },
+      { id:2,  src:'image (3).jpeg',  speed:0.67, restY:1.95, wFrac:0.36, aspect:4/5,   align:'left',   offset:80   },
+      { id:3,  src:'image (4).jpeg',  speed:0.98, restY:2.10, wFrac:0.25, aspect:3/4,   align:'right',  offset:80   },
+      { id:4,  src:'image (5).jpeg',  speed:0.28, restY:3.00, wFrac:0.60, aspect:16/10, align:'right',  offset:60   },
+      { id:5,  src:'image (6).jpeg',  speed:0.84, restY:3.55, wFrac:0.25, aspect:3/4,   align:'left',   offset:100  },
+      { id:6,  src:'image (7).jpeg',  speed:0.50, restY:3.80, wFrac:0.36, aspect:4/5,   align:'center', offset:80   },
+      { id:7,  src:'image (8).jpeg',  speed:0.14, restY:4.80, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
+      { id:8,  src:'image (9).jpeg',  speed:0.73, restY:5.35, wFrac:0.30, aspect:3/4,   align:'left',   offset:60   },
+      { id:9,  src:'image (10).jpeg', speed:0.39, restY:5.65, wFrac:0.42, aspect:4/5,   align:'right',  offset:80   },
+      { id:10, src:'image (11).jpeg', speed:1.00, restY:6.20, wFrac:0.23, aspect:3/4,   align:'left',   offset:120  },
+      { id:11, src:'image (12).jpeg', speed:0.20, restY:6.50, wFrac:0.62, aspect:16/10, align:'right',  offset:40   },
+      { id:12, src:'image (14).jpg',  speed:0.77, restY:7.20, wFrac:0.32, aspect:4/5,   align:'left',   offset:80   },
+      { id:13, src:'image (15).jpg',  speed:0.31, restY:7.50, wFrac:0.58, aspect:16/10, align:'center', offset:0    },
+      { id:14, src:'image (16).jpg',  speed:0.91, restY:8.20, wFrac:0.26, aspect:3/4,   align:'right',  offset:100  },
+      { id:15, src:'image (17).jpg',  speed:0.45, restY:8.55, wFrac:0.44, aspect:4/5,   align:'left',   offset:60   },
+      { id:16, src:'image (19).jpg',  speed:0.22, restY:9.10, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
+    ];
+
+    const mobileDefs = defs.map((def, i) => ({
+      ...def,
+      wFrac: 0.88,
+      aspect: 4/3,
+      align: 'center',
+      offset: 0,
+      speed: 0.04 + i * 0.02,
+      restY: 0.9 + i * 0.80,
+    }));
+
+    const bySpeed = [...defs].sort((a, b) => a.speed - b.speed);
+    const elMap = {};
+
+    bySpeed.forEach((def, i) => {
+      const frame = document.createElement('div');
+      frame.className = 'frame';
+      frame.style.zIndex = i + 1;
+
+      const img = document.createElement('img');
+      img.src = def.src;
+      img.alt = 'Image ' + def.id;
+
+      const cap = document.createElement('span');
+      cap.className = 'caption';
+      cap.textContent = String(def.id + 1).padStart(2, '0');
+
+      frame.appendChild(img);
+      frame.appendChild(cap);
+      document.body.appendChild(frame);
+      elMap[def.id] = frame;
+    });
+
+    function isMobile() { return window.innerWidth < MOBILE_BP; }
+
+    function render() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const scrollY = window.scrollY;
+      const mobile = isMobile();
+      const activeDefs = mobile ? mobileDefs : defs;
+
+      activeDefs.forEach(def => {
+        const el = elMap[def.id];
+        const w = Math.min(def.wFrac * vw, vw - 32);
+        const h = w / def.aspect;
+        el.style.width  = w + 'px';
+        el.style.height = h + 'px';
+
+        let left;
+        if (mobile) {
+          left = (vw - w) / 2;
+        } else if (def.id === 1) {
+          left = (vw - w) / 2 + vw * 0.25;
+        } else if (def.align === 'center') {
+          left = (vw - w) / 2 + def.offset;
+        } else if (def.align === 'left') {
+          left = def.offset;
+        } else {
+          left = vw - w - def.offset;
+        }
+        el.style.left = left + 'px';
+
+        const centreY = def.restY * vh - scrollY * def.speed;
+        el.style.top = (centreY - h / 2) + 'px';
+      });
+    }
+
+    function setScrollHeight() {
+      const vh = window.innerHeight;
+      const mobile = isMobile();
+      const activeDefs = mobile ? mobileDefs : defs;
+      const maxRestY = Math.max(...activeDefs.map(d => d.restY));
+      document.getElementById('scroll-body').style.height = (maxRestY * vh + vh * 5) + 'px';
+    }
+
+    const arrowEl = document.getElementById('arrow-top');
+
+    function updateArrow() {
+      const scrollY = window.scrollY;
+      const totalH  = document.getElementById('scroll-body').offsetHeight;
+      if (scrollY > totalH * 0.80) {
+        arrowEl.classList.add('visible');
+      } else {
+        arrowEl.classList.remove('visible');
+      }
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { render(); updateArrow(); ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => { setScrollHeight(); render(); });
+
+    setScrollHeight();
+    render();
+  })();
+  </script>
+
+</body>
+</html>
