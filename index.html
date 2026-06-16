@@ -71,10 +71,7 @@
       display: block;
     }
 
-    /* ── MOBILE GRID ── */
-    .mobile-grid {
-      display: none;
-    }
+    .mobile-grid { display: none; }
 
     @media (max-width: 768px) {
       .mobile-grid {
@@ -162,25 +159,24 @@
 
   <div id="scroll-body"></div>
 
-  <!-- Mobile grid -->
   <div class="mobile-grid">
-    <img class="m-img" src="image (1).jpg"   alt="1" />
-    <img class="m-img" src="image (2).jpg"  alt="2" />
-    <img class="m-img" src="image (3).jpg"  alt="3" />
-    <img class="m-img" src="image (4).jpg"  alt="4" />
-    <img class="m-img" src="image (5).jpg"  alt="5" />
-    <img class="m-img" src="image (6).jpg"  alt="6" />
-    <img class="m-img" src="image (7).jpg"  alt="7" />
-    <img class="m-img" src="image (8).jpg"  alt="8" />
-    <img class="m-img" src="image (9).jpg"  alt="9" />
-    <img class="m-img" src="image (10).jpg" alt="10" />
-    <img class="m-img" src="image (11).jpg" alt="11" />
-    <img class="m-img" src="image (12).jpg" alt="12" />
-    <img class="m-img" src="image (14).jpg"  alt="14" />
-    <img class="m-img" src="image (15).jpg"  alt="15" />
-    <img class="m-img" src="image (16).jpg"  alt="16" />
-    <img class="m-img" src="image (17).jpg"  alt="17" />
-    <img class="m-img" src="image (19).jpg"  alt="19" />
+    <img class="m-img" src="image1.jpg"  alt="" />
+    <img class="m-img" src="image2.jpg"  alt="" />
+    <img class="m-img" src="image3.jpg"  alt="" />
+    <img class="m-img" src="image4.jpg"  alt="" />
+    <img class="m-img" src="image5.jpg"  alt="" />
+    <img class="m-img" src="image6.jpg"  alt="" />
+    <img class="m-img" src="image7.jpg"  alt="" />
+    <img class="m-img" src="image8.jpg"  alt="" />
+    <img class="m-img" src="image9.jpg"  alt="" />
+    <img class="m-img" src="image10.jpg" alt="" />
+    <img class="m-img" src="image11.jpg" alt="" />
+    <img class="m-img" src="image12.jpg" alt="" />
+    <img class="m-img" src="image14.jpg" alt="" />
+    <img class="m-img" src="image15.jpg" alt="" />
+    <img class="m-img" src="image16.jpg" alt="" />
+    <img class="m-img" src="image17.jpg" alt="" />
+    <img class="m-img" src="image19.jpg" alt="" />
   </div>
 
   <div class="arrow-top" id="arrow-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -194,26 +190,24 @@
   (() => {
     const MOBILE_BP = 768;
 
-    // 17 images — matches exactly what's in the folder
-    // Missing: 13, 18
     const defs = [
-      { id:0,  src:'image (1).jpg',   speed:0.11, restY:0.48, wFrac:0.80, aspect:16/9,  align:'center', offset:0    },
-      { id:1,  src:'image (2).jpeg',  speed:0.17, restY:1.40, wFrac:0.66, aspect:16/10, align:'right',  offset:-160 },
-      { id:2,  src:'image (3).jpeg',  speed:0.67, restY:1.95, wFrac:0.36, aspect:4/5,   align:'left',   offset:80   },
-      { id:3,  src:'image (4).jpeg',  speed:0.98, restY:2.10, wFrac:0.25, aspect:3/4,   align:'right',  offset:80   },
-      { id:4,  src:'image (5).jpeg',  speed:0.28, restY:3.00, wFrac:0.60, aspect:16/10, align:'right',  offset:60   },
-      { id:5,  src:'image (6).jpeg',  speed:0.84, restY:3.55, wFrac:0.25, aspect:3/4,   align:'left',   offset:100  },
-      { id:6,  src:'image (7).jpeg',  speed:0.50, restY:3.80, wFrac:0.36, aspect:4/5,   align:'center', offset:80   },
-      { id:7,  src:'image (8).jpeg',  speed:0.14, restY:4.80, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
-      { id:8,  src:'image (9).jpeg',  speed:0.73, restY:5.35, wFrac:0.30, aspect:3/4,   align:'left',   offset:60   },
-      { id:9,  src:'image (10).jpeg', speed:0.39, restY:5.65, wFrac:0.42, aspect:4/5,   align:'right',  offset:80   },
-      { id:10, src:'image (11).jpeg', speed:1.00, restY:6.20, wFrac:0.23, aspect:3/4,   align:'left',   offset:120  },
-      { id:11, src:'image (12).jpeg', speed:0.20, restY:6.50, wFrac:0.62, aspect:16/10, align:'right',  offset:40   },
-      { id:12, src:'image (14).jpg',  speed:0.77, restY:7.20, wFrac:0.32, aspect:4/5,   align:'left',   offset:80   },
-      { id:13, src:'image (15).jpg',  speed:0.31, restY:7.50, wFrac:0.58, aspect:16/10, align:'center', offset:0    },
-      { id:14, src:'image (16).jpg',  speed:0.91, restY:8.20, wFrac:0.26, aspect:3/4,   align:'right',  offset:100  },
-      { id:15, src:'image (17).jpg',  speed:0.45, restY:8.55, wFrac:0.44, aspect:4/5,   align:'left',   offset:60   },
-      { id:16, src:'image (19).jpg',  speed:0.22, restY:9.10, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
+      { id:0,  src:'image1.jpg',  speed:0.11, restY:0.48, wFrac:0.80, aspect:16/9,  align:'center', offset:0    },
+      { id:1,  src:'image2.jpg',  speed:0.17, restY:1.40, wFrac:0.66, aspect:16/10, align:'right',  offset:-160 },
+      { id:2,  src:'image3.jpg',  speed:0.67, restY:1.95, wFrac:0.36, aspect:4/5,   align:'left',   offset:80   },
+      { id:3,  src:'image4.jpg',  speed:0.98, restY:2.10, wFrac:0.25, aspect:3/4,   align:'right',  offset:80   },
+      { id:4,  src:'image5.jpg',  speed:0.28, restY:3.00, wFrac:0.60, aspect:16/10, align:'right',  offset:60   },
+      { id:5,  src:'image6.jpg',  speed:0.84, restY:3.55, wFrac:0.25, aspect:3/4,   align:'left',   offset:100  },
+      { id:6,  src:'image7.jpg',  speed:0.50, restY:3.80, wFrac:0.36, aspect:4/5,   align:'center', offset:80   },
+      { id:7,  src:'image8.jpg',  speed:0.14, restY:4.80, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
+      { id:8,  src:'image9.jpg',  speed:0.73, restY:5.35, wFrac:0.30, aspect:3/4,   align:'left',   offset:60   },
+      { id:9,  src:'image10.jpg', speed:0.39, restY:5.65, wFrac:0.42, aspect:4/5,   align:'right',  offset:80   },
+      { id:10, src:'image11.jpg', speed:1.00, restY:6.20, wFrac:0.23, aspect:3/4,   align:'left',   offset:120  },
+      { id:11, src:'image12.jpg', speed:0.20, restY:6.50, wFrac:0.62, aspect:16/10, align:'right',  offset:40   },
+      { id:12, src:'image14.jpg', speed:0.77, restY:7.20, wFrac:0.32, aspect:4/5,   align:'left',   offset:80   },
+      { id:13, src:'image15.jpg', speed:0.31, restY:7.50, wFrac:0.58, aspect:16/10, align:'center', offset:0    },
+      { id:14, src:'image16.jpg', speed:0.91, restY:8.20, wFrac:0.26, aspect:3/4,   align:'right',  offset:100  },
+      { id:15, src:'image17.jpg', speed:0.45, restY:8.55, wFrac:0.44, aspect:4/5,   align:'left',   offset:60   },
+      { id:16, src:'image19.jpg', speed:0.22, restY:9.10, wFrac:0.64, aspect:16/10, align:'center', offset:0    },
     ];
 
     const mobileDefs = defs.map((def, i) => ({
@@ -236,7 +230,7 @@
 
       const img = document.createElement('img');
       img.src = def.src;
-      img.alt = 'Image ' + def.id;
+      img.alt = '';
 
       const cap = document.createElement('span');
       cap.className = 'caption';
@@ -295,7 +289,7 @@
 
     function updateArrow() {
       const scrollY = window.scrollY;
-      const totalH  = document.getElementById('scroll-body').offsetHeight;
+      const totalH = document.getElementById('scroll-body').offsetHeight;
       if (scrollY > totalH * 0.80) {
         arrowEl.classList.add('visible');
       } else {
