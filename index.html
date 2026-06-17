@@ -162,9 +162,9 @@
   <!-- Mobile grid — same image order as desktop -->
   <div class="mobile-grid">
     <img class="m-img" src="image9.jpg"  alt="" />
-    <img class="m-img" src="image1.jpg"  alt="" />
     <img class="m-img" src="image5.jpg"  alt="" />
     <img class="m-img" src="image16.jpg" alt="" />
+    <img class="m-img" src="image1.jpg"  alt="" />
     <img class="m-img" src="image3.jpg"  alt="" />
     <img class="m-img" src="image2.jpg"  alt="" />
     <img class="m-img" src="image7.jpg"  alt="" />
@@ -201,15 +201,15 @@
     const raw = [
       // src,        n,  wFrac, aspect, speed, align,   offset, targetT
       ['image9.jpg',  1, 0.78, 4/5,   0.45, 'center',  0,   0.45], // XL hero — unchanged
-      ['image1.jpg',  2, 0.60, 16/10, 0.62, 'right',   60,  0.35], // L
       ['image5.jpg',  3, 0.44, 4/5,   0.80, 'left',    80,  0.52], // M
       ['image16.jpg', 4, 0.24, 3/4,   1.12, 'right',   110, 0.28], // XS
+      ['image1.jpg',  2, 0.60, 16/10, 0.62, 'right',   60,  0.55], // L — moved down to fill the gap between 4 & 5
       ['image3.jpg',  5, 0.30, 3/4,   0.98, 'left',    90,  0.46], // S
       ['image2.jpg',  6, 0.60, 16/10, 0.62, 'center',  0,   0.38], // L
       ['image7.jpg',  7, 0.44, 4/5,   0.80, 'right',   70,  0.52], // M
       ['image4.jpg',  8, 0.30, 3/4,   0.98, 'left',    90,  0.30], // S
       ['image10.jpg', 9, 0.60, 16/10, 0.62, 'right',   40,  0.48], // L
-      ['image6.jpg', 10, 0.24, 3/4,   1.12, 'center',  0,   0.34], // XS
+      ['image6.jpg', 10, 0.36, 3/4,   1.12, 'center',  250, 0.34], // XS (1.5x size, shifted +250px right)
       ['image15.jpg',11, 0.44, 16/10, 0.80, 'left',    70,  0.52], // M
       ['image17.jpg',12, 0.70, 4/5,   0.45, 'right',   60,  0.40], // XL — calm close
     ];

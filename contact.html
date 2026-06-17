@@ -17,6 +17,15 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Ink canvas — sits above the page background but behind all content */
+    #brush {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .nav-left {
@@ -52,11 +61,22 @@
     }
 
     .content {
+      position: relative;
+      z-index: 1;
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px);
+    }
+
+    .contact-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(48px, 6vw, 80px);
+      width: 100%;
+      max-width: 900px;
     }
 
     .contact-block {
@@ -65,7 +85,6 @@
       align-items: flex-start;
       gap: clamp(40px, 8vw, 140px);
       width: 100%;
-      max-width: 900px;
     }
 
     .contact-block .item {
@@ -94,6 +113,19 @@
 
     .contact-block a.item-value:hover { color: #ff5500; }
 
+    /* Instagram */
+    .social {
+      display: inline-flex;
+      color: #000;
+      transition: color 0.25s ease;
+    }
+    .social:hover { color: #ff5500; }
+    .social svg {
+      width: clamp(26px, 3vw, 32px);
+      height: auto;
+      display: block;
+    }
+
     @media (max-width: 600px) {
       .contact-block {
         flex-direction: column;
@@ -105,24 +137,127 @@
 </head>
 <body>
 
+  <canvas id="brush"></canvas>
+
   <div class="nav-left"><a href="manifesto.html">Manifesto</a></div>
   <div class="nav-right"><a href="index.html">Home</a></div>
 
   <div class="content">
-    <div class="contact-block">
+    <div class="contact-inner">
 
-      <span class="item">
-        <span class="item-label">Phone</span>
-        <a href="tel:07811188103" class="item-value">07811 188 103</a>
-      </span>
+      <div class="contact-block">
+        <span class="item">
+          <span class="item-label">Phone</span>
+          <a href="tel:07811188103" class="item-value">07811 188 103</a>
+        </span>
 
-      <span class="item">
-        <span class="item-label">Email</span>
-        <a href="mailto:info@hermana.uk" class="item-value">info@hermana.uk</a>
-      </span>
+        <span class="item">
+          <span class="item-label">Email</span>
+          <a href="mailto:info@hermana.uk" class="item-value">info@hermana.uk</a>
+        </span>
+      </div>
+
+      <a class="social"
+         href="https://www.instagram.com/hermana________/"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Hermana on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5.2"
+                stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="12" cy="12" r="4.4"
+                  stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
+        </svg>
+      </a>
 
     </div>
   </div>
+
+  <script>
+  (() => {
+    // Only run the ink trail on mouse / fine-pointer devices
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const canvas = document.getElementById('brush');
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Background tone (matches body) used for the gentle fade-out
+    const FADE = 'rgba(237, 233, 227, 0.045)';
+
+    // Ink colours sampled from the Hermana plaster palette
+    const palette = ['#6f7d61', '#b58a6a', '#a99884', '#7c6a54', '#322d26'];
+    let colorIndex = Math.floor(Math.random() * palette.length);
+    let current = palette[colorIndex];
+
+    function resize() {
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width  = window.innerWidth  + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Continuous gentle fade so strokes dissolve like drying ink
+    function fade() {
+      ctx.fillStyle = FADE;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      requestAnimationFrame(fade);
+    }
+    requestAnimationFrame(fade);
+
+    const MAX_W = 22;   // thickest (slow movement)
+    const MIN_W = 1.5;  // thinnest (fast flick)
+    const GAP   = 180;  // ms of stillness that starts a new gesture (new colour)
+
+    let lastX = null, lastY = null;
+    let lastMidX = 0, lastMidY = 0;
+    let lastW = 12, lastT = 0;
+
+    window.addEventListener('pointermove', (e) => {
+      const x = e.clientX, y = e.clientY;
+      const now = performance.now();
+
+      // Start of a fresh gesture → pick the next ink colour
+      if (lastX === null || now - lastT > GAP) {
+        colorIndex = (colorIndex + 1) % palette.length;
+        current = palette[colorIndex];
+        lastX = x; lastY = y;
+        lastMidX = x; lastMidY = y;
+        lastW = 12; lastT = now;
+        return;
+      }
+
+      const dx = x - lastX, dy = y - lastY;
+      const dist = Math.hypot(dx, dy);
+
+      // Width tapers with speed: slow = thick, fast = fine
+      const targetW = Math.max(MIN_W, Math.min(MAX_W, MAX_W - dist * 0.55));
+      const w = lastW + (targetW - lastW) * 0.35;
+
+      const midX = (lastX + x) / 2;
+      const midY = (lastY + y) / 2;
+
+      ctx.strokeStyle = current;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = w;
+      ctx.beginPath();
+      ctx.moveTo(lastMidX, lastMidY);
+      ctx.quadraticCurveTo(lastX, lastY, midX, midY);
+      ctx.stroke();
+
+      lastMidX = midX; lastMidY = midY;
+      lastX = x; lastY = y;
+      lastW = w; lastT = now;
+    }, { passive: true });
+
+    // Leaving the window ends the current gesture cleanly
+    window.addEventListener('pointerout', () => { lastX = null; });
+  })();
+  </script>
 
 </body>
 </html>
