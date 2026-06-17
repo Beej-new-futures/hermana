@@ -164,9 +164,9 @@
     <img class="m-img" src="image9.jpg"  alt="" />
     <img class="m-img" src="image1.jpg"  alt="" />
     <img class="m-img" src="image5.jpg"  alt="" />
+    <img class="m-img" src="image16.jpg" alt="" />
     <img class="m-img" src="image3.jpg"  alt="" />
     <img class="m-img" src="image2.jpg"  alt="" />
-    <img class="m-img" src="image16.jpg" alt="" />
     <img class="m-img" src="image7.jpg"  alt="" />
     <img class="m-img" src="image4.jpg"  alt="" />
     <img class="m-img" src="image10.jpg" alt="" />
@@ -186,23 +186,46 @@
   (() => {
     const MOBILE_BP = 768;
 
-    // SIZE drives SPEED: bigger images = slower parallax, smaller = faster.
-    // wFrac is the image width (fraction of viewport); speed is inversely tied to it.
-    // Tiers:  XL 0.78/0.10 · L 0.62/0.22 · M 0.44/0.45 · S 0.30/0.78 · XS 0.24/1.00
-    const defs = [
-      { id:0,  src:'image9.jpg',  n:1,  speed:0.10, restY:0.50, wFrac:0.78, aspect:4/5,   align:'center', offset:0   },
-      { id:1,  src:'image1.jpg',  n:2,  speed:0.22, restY:1.35, wFrac:0.62, aspect:16/10, align:'right',  offset:60  },
-      { id:2,  src:'image5.jpg',  n:3,  speed:0.45, restY:2.05, wFrac:0.44, aspect:4/5,   align:'left',   offset:80  },
-      { id:3,  src:'image3.jpg',  n:4,  speed:0.78, restY:2.70, wFrac:0.30, aspect:3/4,   align:'right',  offset:90  },
-      { id:4,  src:'image2.jpg',  n:5,  speed:0.22, restY:3.50, wFrac:0.62, aspect:16/10, align:'center', offset:0   },
-      { id:5,  src:'image16.jpg', n:6,  speed:1.00, restY:4.15, wFrac:0.24, aspect:3/4,   align:'left',   offset:110 },
-      { id:6,  src:'image7.jpg',  n:7,  speed:0.45, restY:4.85, wFrac:0.44, aspect:4/5,   align:'right',  offset:70  },
-      { id:7,  src:'image4.jpg',  n:8,  speed:0.78, restY:5.55, wFrac:0.30, aspect:3/4,   align:'left',   offset:90  },
-      { id:8,  src:'image10.jpg', n:9,  speed:0.22, restY:6.30, wFrac:0.62, aspect:16/10, align:'right',  offset:40  },
-      { id:9,  src:'image6.jpg',  n:10, speed:1.00, restY:6.95, wFrac:0.24, aspect:3/4,   align:'center', offset:0   },
-      { id:10, src:'image15.jpg', n:11, speed:0.45, restY:7.65, wFrac:0.44, aspect:16/10, align:'left',   offset:70  },
-      { id:11, src:'image17.jpg', n:12, speed:0.32, restY:8.40, wFrac:0.52, aspect:4/5,   align:'right',  offset:60  },
+    // ── LAYOUT MODEL ──────────────────────────────────────────────
+    // Each image is given a focusS (the scroll position, in screen-
+    // heights, where it lands centre-screen) and a targetT (its
+    // vertical resting position at that moment, 0 = top, 1 = bottom).
+    // focusS values are spaced evenly, so images arrive at a steady
+    // cadence — every ~0.78 screens of scroll, one image hits centre.
+    // restY is derived from these so the maths always lines up, no
+    // matter the speed. SIZE drives SPEED: bigger = slower drift,
+    // smaller = faster. Tweak SPACING for a longer/shorter scroll.
+    const SPACING = 0.78;   // screens of scroll between each image's focus
+    const TAIL    = 1.2;    // breathing room after the last image
+
+    const raw = [
+      // src,        n,  wFrac, aspect, speed, align,   offset, targetT
+      ['image9.jpg',  1, 0.78, 4/5,   0.45, 'center',  0,   0.45], // XL hero — unchanged
+      ['image1.jpg',  2, 0.60, 16/10, 0.62, 'right',   60,  0.35], // L
+      ['image5.jpg',  3, 0.44, 4/5,   0.80, 'left',    80,  0.52], // M
+      ['image16.jpg', 4, 0.24, 3/4,   1.12, 'right',   110, 0.28], // XS
+      ['image3.jpg',  5, 0.30, 3/4,   0.98, 'left',    90,  0.46], // S
+      ['image2.jpg',  6, 0.60, 16/10, 0.62, 'center',  0,   0.38], // L
+      ['image7.jpg',  7, 0.44, 4/5,   0.80, 'right',   70,  0.52], // M
+      ['image4.jpg',  8, 0.30, 3/4,   0.98, 'left',    90,  0.30], // S
+      ['image10.jpg', 9, 0.60, 16/10, 0.62, 'right',   40,  0.48], // L
+      ['image6.jpg', 10, 0.24, 3/4,   1.12, 'center',  0,   0.34], // XS
+      ['image15.jpg',11, 0.44, 16/10, 0.80, 'left',    70,  0.52], // M
+      ['image17.jpg',12, 0.70, 4/5,   0.45, 'right',   60,  0.40], // XL — calm close
     ];
+
+    const defs = raw.map((r, i) => {
+      const [src, n, wFrac, aspect, speed, align, offset, targetT] = r;
+      const focusS = i * SPACING;
+      return {
+        id: i, src, n, wFrac, aspect, speed, align, offset,
+        // restY so that at scroll = focusS, the image sits at targetT:
+        restY: targetT + focusS * speed,
+        focusS,
+      };
+    });
+
+    const lastFocus = (defs.length - 1) * SPACING;
 
     const mobileDefs = defs.map((def, i) => ({
       ...def,
@@ -272,10 +295,15 @@
     function setScrollHeight() {
       const vh = window.innerHeight;
       const mobile = isMobile();
-      const activeDefs = mobile ? mobileDefs : defs;
-      const maxRestY = Math.max(...activeDefs.map(d => d.restY));
-      // Trimmed tail (was vh * 5) — removes the long empty scroll at the bottom
-      document.getElementById('scroll-body').style.height = (maxRestY * vh + vh * 1.5) + 'px';
+      let totalScreens;
+      if (mobile) {
+        const maxRestY = Math.max(...mobileDefs.map(d => d.restY));
+        totalScreens = maxRestY + 1.5;
+      } else {
+        // Just enough to bring the last image to focus, plus a short tail
+        totalScreens = lastFocus + TAIL;
+      }
+      document.getElementById('scroll-body').style.height = (totalScreens * vh) + 'px';
     }
 
     const arrowEl = document.getElementById('arrow-top');
