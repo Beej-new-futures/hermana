@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Manifesto — Hermana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,13 +10,27 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { height: 100%; }
+
     body {
       background: #ede9e3;
       font-family: 'DM Sans', sans-serif;
       color: #000;
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      touch-action: none;            /* let drags paint instead of scroll */
+      overscroll-behavior: none;     /* no pull-to-refresh */
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #brush {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .nav-left {
@@ -52,6 +66,8 @@
     }
 
     .content {
+      position: relative;
+      z-index: 1;
       flex: 1;
       display: flex;
       align-items: center;
@@ -63,6 +79,7 @@
       max-width: 1100px;
       width: 100%;
       text-align: center;
+      pointer-events: none;   /* let paint strokes pass through the text area */
     }
 
     .text-block p {
@@ -83,19 +100,30 @@
       color: #555;
       letter-spacing: 0.05em;
     }
+
+    /* Keep the manifesto fitting one screen on phones (no scroll) */
+    @media (max-width: 600px) {
+      .content { padding: 84px 22px; }
+      .text-block p { font-size: 18px; line-height: 1.4; }
+      .text-block .tagline { margin-top: 1.8em; }
+    }
   </style>
 </head>
 <body>
+
+  <canvas id="brush"></canvas>
 
   <div class="nav-left"><a href="contact.html">Contact</a></div>
   <div class="nav-right"><a href="index.html">Home</a></div>
 
   <div class="content">
     <div class="text-block">
-      <p>Hermana is a Somerset-based collective founded by artists Daljit Kaur and Georgina Gordon-Smith, specialising in bespoke paint finishes that elevate surfaces into refined design features. Our work brings depth, material richness, and a timeless quality to interiors, with careful attention to light, tone, and atmosphere. We also offer restoration and colour matching, with sustainability at the core of our materials and process.</p>
+      <p>Hermana is a Somerset-based collective founded by artists Georgina Gordon-Smith and Daljit Kaur, specialising in bespoke paint finishes that elevate surfaces into refined design features. Our work brings depth, material richness, and a timeless quality to interiors, with careful attention to light, tone, and atmosphere. We also offer restoration and colour matching, with sustainability at the core of our materials and process.</p>
       <span class="tagline">Mi casa su casa</span>
     </div>
   </div>
+
+  <script src="brush.js"></script>
 
 </body>
 </html>

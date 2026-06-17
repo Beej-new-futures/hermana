@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Contact — Hermana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,17 +10,22 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { height: 100%; }
+
     body {
       background: #ede9e3;
       font-family: 'DM Sans', sans-serif;
       color: #000;
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      touch-action: none;            /* let drags paint instead of scroll */
+      overscroll-behavior: none;     /* no pull-to-refresh */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
-    /* Ink canvas — sits above the page background but behind all content */
     #brush {
       position: fixed;
       inset: 0;
@@ -87,9 +92,7 @@
       width: 100%;
     }
 
-    .contact-block .item {
-      text-align: center;
-    }
+    .contact-block .item { text-align: center; }
 
     .contact-block .item-label {
       font-family: 'DM Sans', sans-serif;
@@ -109,11 +112,12 @@
       text-decoration: none;
       display: block;
       transition: color 0.25s ease;
+      -webkit-user-select: text;   /* still long-press to copy */
+      user-select: text;
     }
 
     .contact-block a.item-value:hover { color: #ff5500; }
 
-    /* Instagram */
     .social {
       display: inline-flex;
       color: #000;
@@ -173,91 +177,7 @@
     </div>
   </div>
 
-  <script>
-  (() => {
-    // Only run the ink trail on mouse / fine-pointer devices
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    const canvas = document.getElementById('brush');
-    const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    // Background tone (matches body) used for the gentle fade-out
-    const FADE = 'rgba(237, 233, 227, 0.045)';
-
-    // Ink colours sampled from the Hermana plaster palette
-    const palette = ['#6f7d61', '#b58a6a', '#a99884', '#7c6a54', '#322d26'];
-    let colorIndex = Math.floor(Math.random() * palette.length);
-    let current = palette[colorIndex];
-
-    function resize() {
-      canvas.width  = window.innerWidth  * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width  = window.innerWidth  + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Continuous gentle fade so strokes dissolve like drying ink
-    function fade() {
-      ctx.fillStyle = FADE;
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-      requestAnimationFrame(fade);
-    }
-    requestAnimationFrame(fade);
-
-    const MAX_W = 22;   // thickest (slow movement)
-    const MIN_W = 1.5;  // thinnest (fast flick)
-    const GAP   = 180;  // ms of stillness that starts a new gesture (new colour)
-
-    let lastX = null, lastY = null;
-    let lastMidX = 0, lastMidY = 0;
-    let lastW = 12, lastT = 0;
-
-    window.addEventListener('pointermove', (e) => {
-      const x = e.clientX, y = e.clientY;
-      const now = performance.now();
-
-      // Start of a fresh gesture → pick the next ink colour
-      if (lastX === null || now - lastT > GAP) {
-        colorIndex = (colorIndex + 1) % palette.length;
-        current = palette[colorIndex];
-        lastX = x; lastY = y;
-        lastMidX = x; lastMidY = y;
-        lastW = 12; lastT = now;
-        return;
-      }
-
-      const dx = x - lastX, dy = y - lastY;
-      const dist = Math.hypot(dx, dy);
-
-      // Width tapers with speed: slow = thick, fast = fine
-      const targetW = Math.max(MIN_W, Math.min(MAX_W, MAX_W - dist * 0.55));
-      const w = lastW + (targetW - lastW) * 0.35;
-
-      const midX = (lastX + x) / 2;
-      const midY = (lastY + y) / 2;
-
-      ctx.strokeStyle = current;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.lineWidth = w;
-      ctx.beginPath();
-      ctx.moveTo(lastMidX, lastMidY);
-      ctx.quadraticCurveTo(lastX, lastY, midX, midY);
-      ctx.stroke();
-
-      lastMidX = midX; lastMidY = midY;
-      lastX = x; lastY = y;
-      lastW = w; lastT = now;
-    }, { passive: true });
-
-    // Leaving the window ends the current gesture cleanly
-    window.addEventListener('pointerout', () => { lastX = null; });
-  })();
-  </script>
+  <script src="brush.js"></script>
 
 </body>
 </html>
