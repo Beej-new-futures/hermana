@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Contact — Hermana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,13 +10,27 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { height: 100%; }
+
     body {
       background: #ede9e3;
       font-family: 'DM Sans', sans-serif;
       color: #000;
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      touch-action: none;
+      overscroll-behavior: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #brush {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .nav-left {
@@ -52,6 +66,8 @@
     }
 
     .content {
+      position: relative;
+      z-index: 1;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -61,7 +77,7 @@
       gap: clamp(50px, 8vw, 100px);
     }
 
-    /* ── Contact details side by side ── */
+    /* ── Contact details ── */
     .contact-block {
       display: flex;
       justify-content: center;
@@ -71,9 +87,7 @@
       max-width: 900px;
     }
 
-    .contact-block .item {
-      text-align: center;
-    }
+    .contact-block .item { text-align: center; }
 
     .contact-block .item-label {
       font-family: 'DM Sans', sans-serif;
@@ -93,6 +107,8 @@
       text-decoration: none;
       display: block;
       transition: color 0.25s ease;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .contact-block a.item-value:hover { color: #ff5500; }
@@ -123,9 +139,24 @@
       color: #000;
       text-decoration: none;
       transition: color 0.25s ease;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .circle-text a:hover { color: #ff5500; }
+
+    /* ── Instagram ── */
+    .social {
+      display: inline-flex;
+      color: #000;
+      transition: color 0.25s ease;
+    }
+    .social:hover { color: #ff5500; }
+    .social svg {
+      width: clamp(26px, 3vw, 32px);
+      height: auto;
+      display: block;
+    }
 
     @media (max-width: 600px) {
       .contact-block {
@@ -137,6 +168,8 @@
   </style>
 </head>
 <body>
+
+  <canvas id="brush"></canvas>
 
   <div class="nav-left"><a href="manifesto.html">Manifesto</a></div>
   <div class="nav-right"><a href="index.html">Home</a></div>
@@ -159,7 +192,22 @@
       <a href="https://www.thecircle.ngo" target="_blank" rel="noopener">thecircle.ngo</a>
     </div>
 
+    <a class="social"
+       href="https://www.instagram.com/hermana________/"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Hermana on Instagram">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.2"
+              stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="12" r="4.4"
+                stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
+      </svg>
+    </a>
+
   </div>
+
+  <script src="brush.js"></script>
 
 </body>
 </html>
