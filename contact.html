@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Hermana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,27 +10,13 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body { height: 100%; }
-
     body {
       background: #ede9e3;
       font-family: 'DM Sans', sans-serif;
       color: #000;
-      min-height: 100dvh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      touch-action: none;            /* let drags paint instead of scroll */
-      overscroll-behavior: none;     /* no pull-to-refresh */
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    #brush {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
     }
 
     .nav-left {
@@ -66,33 +52,28 @@
     }
 
     .content {
-      position: relative;
-      z-index: 1;
       flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px);
-    }
-
-    .contact-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: clamp(48px, 6vw, 80px);
-      width: 100%;
-      max-width: 900px;
+      justify-content: center;
+      padding: clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px);
+      gap: clamp(50px, 8vw, 100px);
     }
 
+    /* ── Contact details side by side ── */
     .contact-block {
       display: flex;
       justify-content: center;
       align-items: flex-start;
       gap: clamp(40px, 8vw, 140px);
       width: 100%;
+      max-width: 900px;
     }
 
-    .contact-block .item { text-align: center; }
+    .contact-block .item {
+      text-align: center;
+    }
 
     .contact-block .item-label {
       font-family: 'DM Sans', sans-serif;
@@ -112,23 +93,39 @@
       text-decoration: none;
       display: block;
       transition: color 0.25s ease;
-      -webkit-user-select: text;   /* still long-press to copy */
-      user-select: text;
     }
 
     .contact-block a.item-value:hover { color: #ff5500; }
 
-    .social {
-      display: inline-flex;
+    /* ── Circle charity text ── */
+    .circle-text {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .circle-text p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(13px, 1.2vw, 15px);
+      font-weight: 300;
+      line-height: 1.9;
+      color: #777;
+    }
+
+    .circle-text a {
+      display: inline-block;
+      margin-top: 1.4em;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(11px, 1vw, 13px);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: #000;
+      text-decoration: none;
       transition: color 0.25s ease;
     }
-    .social:hover { color: #ff5500; }
-    .social svg {
-      width: clamp(26px, 3vw, 32px);
-      height: auto;
-      display: block;
-    }
+
+    .circle-text a:hover { color: #ff5500; }
 
     @media (max-width: 600px) {
       .contact-block {
@@ -141,43 +138,28 @@
 </head>
 <body>
 
-  <canvas id="brush"></canvas>
-
   <div class="nav-left"><a href="manifesto.html">Manifesto</a></div>
   <div class="nav-right"><a href="index.html">Home</a></div>
 
   <div class="content">
-    <div class="contact-inner">
 
-      <div class="contact-block">
-        <span class="item">
-          <span class="item-label">Phone</span>
-          <a href="tel:07811188103" class="item-value">07811 188 103</a>
-        </span>
-
-        <span class="item">
-          <span class="item-label">Email</span>
-          <a href="mailto:info@hermana.uk" class="item-value">info@hermana.uk</a>
-        </span>
-      </div>
-
-      <a class="social"
-         href="https://www.instagram.com/hermana________/"
-         target="_blank" rel="noopener noreferrer"
-         aria-label="Hermana on Instagram">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.2"
-                stroke="currentColor" stroke-width="1.4"/>
-          <circle cx="12" cy="12" r="4.4"
-                  stroke="currentColor" stroke-width="1.4"/>
-          <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
-        </svg>
-      </a>
-
+    <div class="contact-block">
+      <span class="item">
+        <span class="item-label">Phone</span>
+        <a href="tel:07811188103" class="item-value">07811 188 103</a>
+      </span>
+      <span class="item">
+        <span class="item-label">Email</span>
+        <a href="mailto:info@hermana.uk" class="item-value">info@hermana.uk</a>
+      </span>
     </div>
-  </div>
 
-  <script src="brush.js"></script>
+    <div class="circle-text">
+      <p>A percentage of all Hermana proceeds is donated to The Circle, a global feminist organisation founded in 2008 by award-winning singer-songwriter and activist Annie Lennox. The Circle works with women and allies around the world to advance equality, improve safety, and support a living wage for women and girls facing gender-based violence and economic injustice.</p>
+      <a href="https://www.thecircle.ngo" target="_blank" rel="noopener">thecircle.ngo</a>
+    </div>
+
+  </div>
 
 </body>
 </html>
